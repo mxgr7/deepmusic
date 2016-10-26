@@ -22,10 +22,10 @@ piece.on("sync", function() {
 
 function main() {
   $(".controller").each(function() {
-    new Controller({ el: this, audio: audio })
+    new Controller({ el: this, audio: audio, model: piece })
   })
   $(".timeline").each(function() {
-    new Timeline({ el: this, audio: audio })
+    new Timeline({ el: this, audio: audio, model: piece })
   })
 }
 

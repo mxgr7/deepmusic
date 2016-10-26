@@ -11,6 +11,8 @@ module.exports = Backbone.View.extend({
     this.$bar = this.$(".timeline-bar")
 
     $(this.audio).on("timeupdate", this.timeUpdate.bind(this))
+
+    this.render(this.model)
   },
 
   timeUpdate: function() {
@@ -25,4 +27,11 @@ module.exports = Backbone.View.extend({
     var percentage = (e.pageX - this.$el.offset().left) / this.$el.width()
     this.audio.currentTime = percentage * this.audio.duration
   },
+
+  render: function(model) {
+    _(model.get("segments")).each(function(segment) {
+      var $s = $("<span>").text(segment.name)
+      .appendTo(this.$el)
+    }, this)
+  }
 })
