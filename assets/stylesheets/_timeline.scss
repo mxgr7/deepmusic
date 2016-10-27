@@ -18,13 +18,22 @@
   }
   > .segments {
     > .segments-row {
+      font-size: 10px;
+      line-height: 1.2;
+      &:first-child {
+        border-top: none;
+      }
+      border-top: 2px solid black;
       position: relative;
       width: 100%;
       > .segment {
+        &:hover, &:focus {
+          text-decoration: none;
+        }
+        padding: 5px;
+        color: #fff;
         position: absolute;
         display: inline-block;
-        border: 1px solid blue;
-        font-size: 10px;
         overflow: hidden;
       }
     }

@@ -1,0 +1,11 @@
+.controller {
+  .btn {
+    border: none;
+  }
+  padding-right: 1em;
+  > button {
+    width: 100%;
+  }
+  float: left;
+  width: 120px;
+}

@@ -3,11 +3,12 @@
 var $ = require("jquery"),
   Backbone = require("backbone"),
   _ = require("underscore"),
-  moment = require("moment")
+  moment = require("moment"),
+  Color = require("color")
 
-var segmentHeight = 20
+var segmentHeight = 2 * 1.2
 
-module.exports = Backbone.View.extend({
+var Timeline = module.exports = Backbone.View.extend({
   initialize: function(opts) {
     this.audio = opts.audio
     new ProgressView({ el: this.$(".timeline-progress"), audio: this.audio })
@@ -15,17 +16,21 @@ module.exports = Backbone.View.extend({
   },
 
   render: function() {
-    var maxDepth = 0, $segments = this.$("> .segments")
+    this.$(".timeline-bar").css({
+      "background-color": this.model.get("main-color")
+    })
+
+    var $segments = this.$("> .segments")
     _(this.model.get("segments")).each(function(row) {
-      maxDepth = Math.max(maxDepth, row.depth)
-      new SegmentRow({
+      var r = new SegmentRow({
         depth: row.depth,
         segments: row.children,
-        piece: this.model,
+        model: this.model,
         audio: this.audio
-      }).render().appendTo($segments)
+      })
+      $segments.append(r.el)
+      r.render()
     }, this)
-    $segments.height((maxDepth + 1) * segmentHeight)
     return this.$el
   }
 })
@@ -58,20 +63,29 @@ var SegmentRow = Backbone.View.extend({
   initialize: function(opts) {
     this.depth = opts.depth
     this.segments = opts.segments
-    this.piece = opts.piece
     this.audio = opts.audio
   },
 
   render: function() {
+    var maxHeight = 0
+    var segmentViews = []
     _(this.segments).each(function(segment) {
-      new SegmentView({
-        model: new Segment(segment, { piece: this.piece, parse: true }),
+      var s = new SegmentView({
+        model: new Segment(segment, { piece: this.model, parse: true }),
         audio: this.audio
-      }).render().appendTo(this.$el)
+      })
+      this.$el.append(s.el)
+      s.render()
+      maxHeight = Math.max(maxHeight, s.$el.outerHeight())
+      segmentViews.push(s)
     }, this)
 
-    this.$el.css({
-      "top": (this.depth * segmentHeight) + "px"
+    _(segmentViews).each(function(s) {
+      s.$el.outerHeight(maxHeight)
+    })
+
+    this.$el.height(maxHeight).css({
+      "border-color": this.model.get("main-color")
     })
 
     return this.$el
@@ -104,7 +118,8 @@ var SegmentView = Backbone.View.extend({
     .css({
       "left": (m.start / p.duration * 100) + "%",
       "width": (m.duration / p.duration * 100) + "%",
-      "height": segmentHeight + "px"
+      "background-color": m.color,
+      "color": Color(m.color).luminosity() > 0.25 ? "#000" : "#fff" 
     })
     return this.$el
   }

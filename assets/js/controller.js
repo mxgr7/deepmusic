@@ -6,12 +6,13 @@ var $ = require("jquery"),
   moment = require("moment")
 require("moment-duration-format")
 
-module.exports = Backbone.View.extend({
+var Controller = module.exports = Backbone.View.extend({
   initialize: function(opts) {
     this.audio = opts.audio
     this.$position = this.$(".position")
     this.timeUpdate()
     $(this.audio).on("loadedmetadata timeupdate", this.timeUpdate.bind(this))
+    this.render()
   },
 
   timeUpdate: function() {
@@ -30,5 +31,12 @@ module.exports = Backbone.View.extend({
       this.audio.play()
     else
       this.audio.pause()
+  },
+
+  render: function() {
+    this.$(".btn").css({
+      "background-color": this.model.get("main-color")
+    })
+
   }
 })
