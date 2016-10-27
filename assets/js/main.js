@@ -20,6 +20,17 @@ piece.on("sync", function() {
   main()
 })
 
+$(document).on("keyup", function(e) {
+  switch(e.which) {
+    case 32:
+      if (audio.paused)
+        audio.play()
+      else
+        audio.pause()
+      break
+  }
+})
+
 function main() {
   $(".controller").each(function() {
     new Controller({ el: this, audio: audio, model: piece })
