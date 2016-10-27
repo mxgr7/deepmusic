@@ -27,6 +27,9 @@ function main() {
   $(".timeline").each(function() {
     new Timeline({ el: this, audio: audio, model: piece })
   })
+  $(".piece-title").text(piece.get("title")).css({
+    "color": piece.get("main-color")
+  })
 }
 
 
