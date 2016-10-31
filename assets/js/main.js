@@ -11,7 +11,7 @@ var $ = require("jquery"),
 var audio
 
 var uri = new URI(document.location)
-var piece = new Piece({}, { filename: uri.search(true).p })
+var piece = new Piece({}, { filename: uri.segment(0) })
 piece.fetch()
 
 piece.on("sync", function() {
