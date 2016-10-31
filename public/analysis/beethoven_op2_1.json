@@ -2,6 +2,7 @@
   "title": "Beethoven Sonata Op. 2, No. 1",
   "form": "sonata",
   "media": "sonata-1.mp3",
+  "waveform": "sonata-1.png",
   "duration": "3:30",
   "main-color": "#1D181F",
   "segments": [

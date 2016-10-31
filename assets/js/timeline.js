@@ -20,6 +20,9 @@ var Timeline = module.exports = Backbone.View.extend({
       "background-color": this.model.get("main-color")
     })
 
+    $("<img>").attr("src", "media/" + this.model.get("waveform"))
+      .appendTo(this.$(".waveform"))
+
     var $segments = this.$("> .segments")
     _(this.model.get("segments")).each(function(row) {
       var r = new SegmentRow({

@@ -1,8 +1,8 @@
-#set terminal pngcairo size 2500,150 enhanced
-#set output "output.png"
+set terminal pngcairo size 5000,50 enhanced
+set output "sonata-1.png"
 
-set terminal svg size 600,50
-set output "sonate-1.svg"
+#set terminal svg size 600,50
+#set output "sonate-1.svg"
 
 set lmargin 0
 set rmargin 0
@@ -25,4 +25,4 @@ set boxwidth 0.75
 
 set datafile commentschars ";"
 
-plot "sonata-1.dat" every 1000 using 1:(abs($2)) lt rgb "#B29C85" with boxes
+plot "sonata-1.dat" every 1000 using 1:(abs($2)) lt rgb "#306E73" with boxes
