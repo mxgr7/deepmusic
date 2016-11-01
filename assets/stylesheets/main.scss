@@ -1,5 +1,17 @@
+@import 'variables';
 @import 'include/bootstrap';
 @import 'include/glyphicons';
+@import 'fonts';
+
+html {
+  height: 100%;
+}
+body {
+  font-size: 14px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
 
 .bottom-row {
   position: absolute;
@@ -18,5 +30,5 @@
 }
 
 @import 'controller';
-
 @import 'timeline';
+@import 'loading';

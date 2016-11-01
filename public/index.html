@@ -12,29 +12,40 @@
     <link rel="stylesheet" href="assets/css/main.css">
 
   </head>
-  <body class="">
+  <body>
 
-    <h1 class="piece-title">
-    </h1>
-
-    <div class="bottom-row">
-      <div class="controller">
-        <button class="playpause btn btn-primary">
-          Play/Pause
-        </button>
-        <span class="position">
-        </span>
-      </div>
-      <div class="timeline">
-        <div class="waveform"> </div>
-        <div class="timeline-progress">
-          <div class="timeline-bar" style="width: 0%;"> </div>
-        </div>
-        <div class="segments"> </div>
+    <div class="loading-overlay">
+      <div class="loading-indicator">
+        One moment...
       </div>
     </div>
 
+    <div class="content">
+
+      <h1 class="piece-title">
+      </h1>
+
+      <div class="bottom-row">
+        <div class="controller">
+          <button class="playpause btn btn-primary">
+            Play/Pause
+          </button>
+          <span class="position">
+          </span>
+        </div>
+        <div class="timeline">
+          <div class="waveform"> </div>
+          <div class="timeline-progress">
+            <div class="timeline-bar" style="width: 0%;"> </div>
+          </div>
+          <div class="segments"> </div>
+        </div>
+      </div>
+
+    </div> <!-- .content -->
+
     <audio id="audio" src="media/sonata-1.mp3"></audio>
     <script src="assets/js/main.js"></script>
+
   </body>
 </html>

@@ -17,7 +17,9 @@ piece.fetch()
 piece.on("sync", function() {
   audio = $("<audio>").attr("src", "media/" + piece.get("media"))
     .appendTo($("body"))[0]
-  main()
+  $(audio).on("loadedmetadata", function() {
+    main()
+  })
 })
 
 $(document).on("keyup", function(e) {
@@ -41,6 +43,8 @@ function main() {
   $(".piece-title").text(piece.get("title")).css({
     "color": piece.get("main-color")
   })
+
+  $("body > .loading-overlay").fadeOut(400, "linear")
 }
 
 
