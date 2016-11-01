@@ -129,7 +129,9 @@ var SegmentView = Backbone.View.extend({
   },
 
   events: {
-    "click": "onClick"
+    "click": "onClick",
+    "mouseover": "mouseOver",
+    "mouseout": "mouseOut"
   },
 
   onClick: function(e) {
@@ -145,11 +147,31 @@ var SegmentView = Backbone.View.extend({
     .css({
       "left": (m.start / p.duration * 100) + "%",
       "width": (m.duration / p.duration * 100) + "%",
-      "background-color": m.color,
+      "background-color": this.bgColor(),
       "color": Color(m.color).luminosity() > 0.25 ? "#000" : "#fff" 
     })
     return this.$el
+  },
+
+  bgColor: function(hover) {
+    var c = Color(this.model.get("color"))
+    if (hover)
+      c.lighten(0.15)
+    return c.hexString()
+  },
+
+  mouseOver: function() {
+    this.$el.css({
+      "background-color": this.bgColor(true)
+    })
+  },
+
+  mouseOut: function() {
+    this.$el.css({
+      "background-color": this.bgColor(false)
+    })
   }
+
 })
 
 var Segment = Backbone.Model.extend({
