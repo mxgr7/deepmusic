@@ -13,12 +13,15 @@ body {
   position: absolute;
 }
 
+.top-row, .bottom-row {
+  padding: 0 10px;
+}
+
 .bottom-row {
   position: absolute;
   bottom: 0;
   display: table;
   width: 100%;
-  padding: 0 10px;
   > * {
     height: 100%;
     display: table-cell;
