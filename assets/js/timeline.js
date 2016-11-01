@@ -20,6 +20,17 @@ var Timeline = module.exports = Backbone.View.extend({
       "background-color": this.model.get("main-color")
     })
 
+    var mainColor = Color(this.model.get("main-color"))
+    var cursorColor = mainColor.clone()
+    if(mainColor.luminosity() > 0.1)
+      cursorColor.darken(0.3)
+    else
+      cursorColor.lighten(5)
+
+    this.$(".timeline-cursor").css({
+      "background-color": cursorColor.hexString()
+    })
+
     $("<img>").attr("src", "media/" + this.model.get("waveform"))
       .appendTo(this.$(".waveform"))
 
@@ -42,6 +53,7 @@ var ProgressView = Backbone.View.extend({
   initialize: function(opts) {
     this.audio = opts.audio
     this.$bar = this.$(".timeline-bar")
+    this.$cursor = this.$(".timeline-cursor")
 
     $(this.audio).on("timeupdate", this.timeUpdate.bind(this))
   },
@@ -52,11 +64,23 @@ var ProgressView = Backbone.View.extend({
 
   events: {
     "mousedown": "mouseDown",
+    "mousemove": "mouseMove",
+    "mouseout": "mouseOut"
   },
 
   mouseDown: function(e) {
     var percentage = (e.pageX - this.$el.offset().left) / this.$el.width()
     this.audio.currentTime = percentage * this.audio.duration
+  },
+
+  mouseMove: function(e) {
+    var percentage = (e.pageX - this.$el.offset().left) / this.$el.width()
+    this.$cursor.css("left", percentage * this.$el.width())
+    .show()
+  },
+
+  mouseOut: function() {
+    this.$cursor.hide()
   }
 })
 
