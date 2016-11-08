@@ -1,5 +1,5 @@
 {
-  "title": "Beethoven Sonata Op. 2, No. 1",
+  "title": "Beethoven Sonata Opus 2, No. 1",
   "form": "sonata",
   "media": "sonata-1.mp3",
   "waveform": "sonata-1.png",
@@ -20,6 +20,10 @@
       { "start": "1:00", "end": "1:12.0", "name": "Connecting episode", "color": "#B29C85" },
       { "start": "1:12.0", "end": "1:32.2", "name": "2nd subject", "color": "#306E73" },
       { "start": "1:32.2", "end": "1:40.5", "name": "Coda", "color": "#3B424C" },
+      { "start": "1:40.5", "end": "1:47.3", "name": "1st subject", "color": "#FF5335" },
+      { "start": "1:47.3", "end": "2:13.2", "name": "2nd subject", "color": "#306E73" },
+      { "start": "2:13.2", "end": "2:24.8", "name": "Connecting episode", "color": "#B29C85" },
+      { "start": "2:24.8", "end": "2:32.74", "name": "Pedal Point", "color": "#3B424C" },
       { "start": "2:32.74", "end": "2:42.8", "name": "1st subject", "color": "#FF5335" },
       { "start": "2:42.8", "end": "2:54.9", "name": "Connecting episode", "symbol": "F", "color": "#B29C85" },
       { "start": "2:54.9", "end": "3:15.2", "name": "2nd subject", "color": "#306E73" },
@@ -27,7 +31,13 @@
     ]}
   ],
   "popups": [
-    { "time": "0:00", "body": "The 1st subject is in F minor, same as the Sonata itself. It is written in a 2-bar rhythm." },
-    { "time": "0:09", "body": "The connecting episode is principally based upon the 2nd and 3rd bars of the first subject." }
+    { "start": "0:00", "end": "0:07", "body": "The 1st subject is in F minor, same as the Sonata itself. It is written in a 2-bar rhythm." },
+    { "start": "0:09", "end": "0:18", "body": "The connecting episode is principally based upon the 2nd and 3rd bars of the first subject." },
+    { "start": "0:22", "end": "0:28", "body": "The 2nd subject begins with the chord of the dominant minor 9th." },
+    { "start": "0:42", "end": "0:50", "body": "The Coda principally confirms the cadence in A♭ major." },
+    { "start": "0:51", "end": "1:35", "body": "The enunciation gets repeated." },
+    { "start": "1:41", "end": "1:47", "body": "Development: The 1st subject, which was originally in 2-bar rhythm, occurs here in 3-bar rhythm." },
+    { "start": "2:25", "end": "2:28", "body": "A pedal point of some length leads to the recapitulation." },
+    { "start": "2:43", "end": "2:54", "body": "The connecting episode is slightly altered; the beginning of it is transposed into the tonic key and slightly elongated." }
   ]
 }

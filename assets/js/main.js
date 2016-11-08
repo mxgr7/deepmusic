@@ -6,7 +6,8 @@ var $ = require("jquery"),
   URI = require("urijs"),
   Piece = require("./piece"),
   Controller = require("./controller"),
-  Timeline = require("./timeline")
+  Timeline = require("./timeline"),
+  PopupMaker = require("./popup-maker")
 
 var audio
 
@@ -42,6 +43,9 @@ function main() {
   })
   $(".piece-title").text(piece.get("title")).css({
     "color": piece.get("main-color")
+  })
+  $(".popups").each(function() {
+    new PopupMaker({ el: this, audio: audio, model: piece })
   })
 
   $("body > .loading-overlay").fadeOut(400, "linear")

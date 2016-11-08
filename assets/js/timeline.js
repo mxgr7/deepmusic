@@ -34,7 +34,7 @@ var Timeline = module.exports = Backbone.View.extend({
     $("<img>").attr("src", "media/" + this.model.get("waveform"))
       .appendTo(this.$(".waveform"))
 
-    var $segments = this.$("> .segments")
+    var $segmentsContainer = this.$("> .segments")
     _(this.model.get("segments")).each(function(row) {
       var r = new SegmentRow({
         depth: row.depth,
@@ -42,8 +42,17 @@ var Timeline = module.exports = Backbone.View.extend({
         model: this.model,
         audio: this.audio
       })
-      $segments.append(r.el)
+      $segmentsContainer.append(r.el)
       r.render()
+    }, this)
+
+    var $popupsContainer = this.$("> .popups")
+    _(this.model.get("popups")).each(function(popup) {
+      var p = new PopupView({
+        model: new Backbone.Model(popup),
+        audio: this.audio
+      })
+      $popupsContainer.append(p.$el)
     }, this)
     return this.$el
   }
@@ -190,5 +199,21 @@ var Segment = Backbone.Model.extend({
     attrs.end = moment.duration(e).asMilliseconds() / 1000
     attrs.duration = attrs.end - attrs.start
     return attrs
+  }
+})
+
+var PopupView = Backbone.View.extend({
+  initialize: function(opts) {
+    this.audio = opts.audio
+
+    this.$el.hide()
+
+    $(this.audio).on("timeupdate", this.timeUpdate.bind(this))
+  },
+
+  timeUpdate: function() {
+  },
+
+  show: function() {
   }
 })

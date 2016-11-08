@@ -17,9 +17,11 @@ body {
   padding: 0 10px;
 }
 
-.bottom-row {
-  position: absolute;
-  bottom: 0;
+.col-left {
+  width: 120px;
+}
+
+.bottom-row, .central-row {
   display: table;
   width: 100%;
   > * {
@@ -32,6 +34,16 @@ body {
   }
 }
 
+.bottom-row {
+  position: absolute;
+  bottom: 0;
+}
+
+.central-row {
+  margin-top: 5em;
+}
+
 @import 'controller';
 @import 'timeline';
 @import 'loading';
+@import 'popups';
