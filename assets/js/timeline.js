@@ -40,7 +40,8 @@ var Timeline = module.exports = Backbone.View.extend({
         depth: row.depth,
         segments: row.children,
         model: this.model,
-        audio: this.audio
+        audio: this.audio,
+        timeline: this
       })
       $segmentsContainer.append(r.el)
       r.render()
@@ -70,7 +71,8 @@ var ProgressView = Backbone.View.extend({
   timeUpdate: function() {
     if(this.mouseIsDown)
       return
-    this.$bar.width(this.audio.currentTime / this.audio.duration * this.$el.width())
+    var percentage = this.audio.currentTime / this.audio.duration
+    this.$bar.width(percentage * this.$el.width())
   },
 
   events: {
@@ -114,6 +116,7 @@ var SegmentRow = Backbone.View.extend({
     this.depth = opts.depth
     this.segments = opts.segments
     this.audio = opts.audio
+    this.timeline = opts.timeline
   },
 
   render: function() {
@@ -122,7 +125,9 @@ var SegmentRow = Backbone.View.extend({
     _(this.segments).each(function(segment) {
       var s = new SegmentView({
         model: new Segment(segment, { piece: this.model, parse: true }),
-        audio: this.audio
+        audio: this.audio,
+        row: this,
+        timeline: this.timeline
       })
       this.$el.append(s.el)
       s.render()
@@ -148,7 +153,9 @@ var SegmentView = Backbone.View.extend({
 
   initialize: function(opts) {
     this.audio = opts.audio
-    this.$el.attr("href", "#")
+    this.row = opts.row
+    this.timeline = opts.timeline
+    $(this.audio).on("timeupdate", this.timeUpdate.bind(this))
   },
 
   events: {
@@ -159,20 +166,38 @@ var SegmentView = Backbone.View.extend({
 
   onClick: function(e) {
     e.preventDefault()
+    this.activate()
     this.audio.currentTime = this.model.get("start")
     this.audio.play()
+  },
+
+  activate: function() {
+    if(this.timeline.activeSegment)
+      this.timeline.activeSegment.deactivate()
+    this.timeline.activeSegment = this
+    this.$bar.show()
+  },
+
+  deactivate: function() {
+    this.$bar.hide()
   },
 
   render: function() {
     var m = this.model.toJSON()
     var p = this.model.piece.toJSON()
-    this.$el.text(m.name)
-    .css({
+    this.$el.css({
       "left": (m.start / p.duration * 100) + "%",
       "width": (m.duration / p.duration * 100) + "%",
-      "background-color": this.bgColor(),
+      "background-color": this.bgColor().hexString(),
       "color": Color(m.color).luminosity() > 0.25 ? "#000" : "#fff" 
     })
+    $("<span class='segment-text'>").text(m.name)
+    .appendTo(this.$el)
+    this.$bar = $("<span class='segment-progress'>")
+    .css({
+      "background-color": this.bgColor().darken(0.5).hexString()
+    })
+    .appendTo(this.$el)
     return this.$el
   },
 
@@ -180,18 +205,33 @@ var SegmentView = Backbone.View.extend({
     var c = Color(this.model.get("color"))
     if (hover)
       c.lighten(0.15)
-    return c.hexString()
+    return c
+  },
+
+  timeUpdate: function() {
+    if(this != this.timeline.activeSegment)
+      return
+    var percentage = (this.audio.currentTime - this.model.get("start")) /
+      this.model.get("duration")
+    if (percentage >= 0 && percentage <= 1)
+      this.$bar.width(percentage * this.$el.width()).show()
+    else
+    {
+      this.deactivate()
+      delete this.timeline.activeSegment
+      this.audio.pause()
+    }
   },
 
   mouseOver: function() {
     this.$el.css({
-      "background-color": this.bgColor(true)
+      "background-color": this.bgColor(true).hexString()
     })
   },
 
   mouseOut: function() {
     this.$el.css({
-      "background-color": this.bgColor(false)
+      "background-color": this.bgColor(false).hexString()
     })
   }
 
