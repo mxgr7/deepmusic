@@ -68,22 +68,36 @@ var ProgressView = Backbone.View.extend({
   },
 
   timeUpdate: function() {
+    if(this.mouseIsDown)
+      return
     this.$bar.width(this.audio.currentTime / this.audio.duration * this.$el.width())
   },
 
   events: {
     "mousedown": "mouseDown",
+    "mouseup": "mouseUp",
     "mousemove": "mouseMove",
     "mouseout": "mouseOut"
   },
 
   mouseDown: function(e) {
+    this.mouseIsDown = true
+    this.mouseMove(e)
+  },
+
+  mouseUp: function(e) {
+    this.mouseIsDown = false
     var percentage = (e.pageX - this.$el.offset().left) / this.$el.width()
     this.audio.currentTime = percentage * this.audio.duration
   },
 
   mouseMove: function(e) {
     var percentage = (e.pageX - this.$el.offset().left) / this.$el.width()
+    if(this.mouseIsDown) {
+      this.$bar.width(percentage * this.$el.width())
+      return
+    }
+
     this.$cursor.css("left", percentage * this.$el.width())
     .show()
   },
