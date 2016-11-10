@@ -149,7 +149,7 @@ var SegmentRow = Backbone.View.extend({
 
 var SegmentView = Backbone.View.extend({
   className: "segment",
-  tagName: "a",
+  tagName: "span",
 
   initialize: function(opts) {
     this.audio = opts.audio

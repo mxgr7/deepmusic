@@ -51,6 +51,9 @@
         &:hover, &:focus {
           text-decoration: none;
         }
+        &, * {
+          cursor: pointer;
+        }
         padding: 5px;
         color: #fff;
         position: absolute;
