@@ -120,6 +120,11 @@ var SegmentRow = Backbone.View.extend({
   },
 
   render: function() {
+    if(this.depth < 0)
+    {
+      this.$el.hide()
+      return
+    }
     var maxHeight = 0
     var segmentViews = []
     _(this.segments).each(function(segment) {
