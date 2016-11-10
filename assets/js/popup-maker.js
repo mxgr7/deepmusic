@@ -49,19 +49,17 @@ var PopupView = Backbone.View.extend({
   },
 
   timeUpdate: function() {
-    var pastEnd = 0 <= this.audio.currentTime - this.model.get("end"),
-      pastStart = 0 <= this.audio.currentTime - this.model.get("start")
+    var pastEnd = this.audio.currentTime > this.model.get("end"),
+      pastStart = this.audio.currentTime > this.model.get("start")
 
-    if(pastEnd)
-    {
-      if(this.isShowing)
-        this.hide()
-    }
-    else if(pastStart)
+    if(pastStart && ! pastEnd)
     {
       if(!this.isShowing)
         this.show()
     }
+    else
+      if(this.isShowing)
+        this.hide()
   },
 
   show: function() {
