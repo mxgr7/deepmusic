@@ -7,7 +7,8 @@ var $ = require("jquery"),
   Piece = require("./piece"),
   Controller = require("./controller"),
   Timeline = require("./timeline"),
-  PopupMaker = require("./popup-maker")
+  PopupMaker = require("./popup-maker"),
+  TechnicalInfo = require("./technical-info")
 
 var audio
 
@@ -46,6 +47,9 @@ function main() {
   })
   $(".popups").each(function() {
     new PopupMaker({ el: this, audio: audio, model: piece })
+  })
+  $(".technical-info").each(function() {
+    new TechnicalInfo({ el: this, audio: audio, model: piece })
   })
 
   $("body > .loading-overlay").fadeOut(400, "linear")
