@@ -24,8 +24,21 @@ var Controller = module.exports = Backbone.View.extend({
   },
 
   events: {
-    "click .playpause": "togglePlay"
+    "click .playpause": "togglePlay",
+    "keyup": "keyUp"
   },
+
+  keyUp: function(e) {
+    switch(e.which) {
+      case 32:
+        if (this.audio.paused)
+          this.audio.play()
+        else
+          this.audio.pause()
+        break
+    }
+  },
+
   togglePlay: function() {
     if (this.audio.paused)
       this.audio.play()
