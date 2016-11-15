@@ -11,8 +11,16 @@ var segmentHeight = 2 * 1.2
 var Timeline = module.exports = Backbone.View.extend({
   initialize: function(opts) {
     this.audio = opts.audio
+    this.segmentsById = {}
     new ProgressView({ el: this.$(".timeline-progress"), audio: this.audio })
     this.render()
+  },
+
+  playSegment: function(id) {
+    if (_(this.segmentsById).has(id))
+      this.segmentsById[id].play({
+        nextPosition: this.audio.currentTime
+      })
   },
 
   render: function() {
@@ -47,14 +55,6 @@ var Timeline = module.exports = Backbone.View.extend({
       r.render()
     }, this)
 
-    var $popupsContainer = this.$("> .popups")
-    _(this.model.get("popups")).each(function(popup) {
-      var p = new PopupView({
-        model: new Backbone.Model(popup),
-        audio: this.audio
-      })
-      $popupsContainer.append(p.$el)
-    }, this)
     return this.$el
   }
 })
@@ -120,11 +120,6 @@ var SegmentRow = Backbone.View.extend({
   },
 
   render: function() {
-    if(this.depth < 0)
-    {
-      this.$el.hide()
-      return
-    }
     var maxHeight = 0
     var segmentViews = []
     _(this.segments).each(function(segment) {
@@ -134,6 +129,8 @@ var SegmentRow = Backbone.View.extend({
         row: this,
         timeline: this.timeline
       })
+      if (_.has(segment, "id"))
+        this.timeline.segmentsById[segment.id] = s
       this.$el.append(s.el)
       s.render()
       maxHeight = Math.max(maxHeight, s.$el.outerHeight())
@@ -147,6 +144,9 @@ var SegmentRow = Backbone.View.extend({
     this.$el.height(maxHeight).css({
       "border-color": this.model.get("main-color")
     })
+
+    if(this.depth < 0)
+      this.$el.hide()
 
     return this.$el
   }
@@ -171,7 +171,13 @@ var SegmentView = Backbone.View.extend({
 
   onClick: function(e) {
     e.preventDefault()
+    this.play()
+  },
+
+  play: function(opts) {
+    opts = (opts || {})
     this.activate()
+    this.nextPosition = opts.nextPosition
     this.audio.currentTime = this.model.get("start")
     this.audio.play()
   },
@@ -225,6 +231,10 @@ var SegmentView = Backbone.View.extend({
       this.deactivate()
       delete this.timeline.activeSegment
       this.audio.pause()
+      if (this.nextPosition != null) {
+        this.audio.currentTime = this.nextPosition
+        this.nextPosition = null
+      }
     }
   },
 
@@ -261,18 +271,3 @@ var Segment = Backbone.Model.extend({
   }
 })
 
-var PopupView = Backbone.View.extend({
-  initialize: function(opts) {
-    this.audio = opts.audio
-
-    this.$el.hide()
-
-    $(this.audio).on("timeupdate", this.timeUpdate.bind(this))
-  },
-
-  timeUpdate: function() {
-  },
-
-  show: function() {
-  }
-})

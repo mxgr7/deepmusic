@@ -9,11 +9,13 @@ var $ = require("jquery"),
 var PopupMaker = module.exports = Backbone.View.extend({
   initialize: function(opts) {
     this.audio = opts.audio
+    this.timeline = opts.timeline
     this.popups = []
     _(this.model.get("popups")).each(function(data) {
       var popupView = new PopupView({
         model: new PopupModel(data, { parse: true }),
-        audio: this.audio
+        audio: this.audio,
+        timeline: this.timeline
       })
       this.listenTo(popupView, "before-show", function() {
         _(this.popups).each(function(p) {
@@ -45,7 +47,12 @@ var PopupView = Backbone.View.extend({
 
   initialize: function(opts) {
     this.audio = opts.audio
+    this.timeline = opts.timeline
     $(this.audio).on("timeupdate", this.timeUpdate.bind(this))
+  },
+
+  events: {
+    "click [data-target]": "clickTarget"
   },
 
   timeUpdate: function() {
@@ -73,9 +80,20 @@ var PopupView = Backbone.View.extend({
     this.$el.hide()
   },
 
+  clickTarget: function(e) {
+    var targetId = $(e.target).attr("data-target")
+    this.timeline.playSegment(targetId)
+  },
+
   render: function() {
+    var body = this.model.get("body")
+      .replace(/#([a-z0-9._-]+)/gi, function(match, id) {
+        var content = $("<span>").attr("data-target", id)
+        .addClass("btn btn-default btn-xs").html("♫")
+        return $("<div>").append(content).html()
+      })
     return this.$el.empty().hide().append(
-      $("<div class='panel-body'>").html(this.model.get("body"))
+      $("<div class='panel-body'>").html(body)
     )
   }
 })

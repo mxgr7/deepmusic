@@ -36,17 +36,19 @@ $(document).on("keyup", function(e) {
 })
 
 function main() {
+  var timeline
+
   $(".controller").each(function() {
     new Controller({ el: this, audio: audio, model: piece })
   })
   $(".timeline").each(function() {
-    new Timeline({ el: this, audio: audio, model: piece })
+    timeline = new Timeline({ el: this, audio: audio, model: piece })
   })
   $(".piece-title").text(piece.get("title")).css({
     "color": piece.get("main-color")
   })
   $(".popups").each(function() {
-    new PopupMaker({ el: this, audio: audio, model: piece })
+    new PopupMaker({ el: this, audio: audio, model: piece, timeline: timeline })
   })
   $(".technical-info").each(function() {
     new TechnicalInfo({ el: this, audio: audio, model: piece })
