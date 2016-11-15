@@ -3,13 +3,13 @@
   "form": "sonata",
   "media": "sonata-1.mp3",
   "waveform": "sonata-1.png",
-  "duration": "3:30",
+  "duration": "3:30.70",
   "main-color": "#1D181F",
   "segments": [
     { "depth": 0, "children": [
       { "start": "0:00", "end": "1:40.5", "name": "Enunciation", "color": "#FF5335" },
       { "start": "1:40.5", "end": "2:32.74", "name": "Development", "symbol": "E", "color": "#B29C85" },
-      { "start": "2:32.74", "end": "3:30", "name": "Recapitulation", "color": "#306E73" }
+      { "start": "2:32.74", "end": "3:30.70", "name": "Recapitulation", "color": "#306E73" }
     ]},
     { "depth": 1, "children": [
       { "start": "0:00", "end": "0:10", "name": "1st subject", "symbol": "A", "color": "#FF5335" },
@@ -27,7 +27,7 @@
       { "start": "2:32.74", "end": "2:42.8", "name": "1st subject", "color": "#FF5335" },
       { "start": "2:42.8", "end": "2:54.9", "name": "Connecting episode", "symbol": "F", "color": "#B29C85" },
       { "start": "2:54.9", "end": "3:15.2", "name": "2nd subject", "color": "#306E73" },
-      { "start": "3:15.2", "end": "3:30", "name": "Coda", "symbol": "G", "color": "#3B424C" }
+      { "start": "3:15.2", "end": "3:30.70", "name": "Coda", "symbol": "G", "color": "#3B424C" }
     ]},
     { "depth": -1, "children": [
       { "id": "2ndbar", "start": "0:00", "end": "0:02", "name": "1st subject", "symbol": "A", "color": "#FF5335" }
