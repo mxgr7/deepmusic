@@ -54,12 +54,13 @@
         &, * {
           cursor: pointer;
         }
-        padding: 5px;
         color: #fff;
         position: absolute;
         display: inline-block;
         overflow: hidden;
         > .segment-text {
+          padding: 5px;
+          display: block;
           position: relative;
           z-index: 2;
         }
