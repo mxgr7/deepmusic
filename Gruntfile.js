@@ -22,7 +22,6 @@ module.exports = function(grunt) {
               'jquery',
               'backbone',
               'underscore',
-              'jquery-ui',
               'bootstrap'
             ]
           }
