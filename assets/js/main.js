@@ -8,9 +8,11 @@ var $ = require("jquery"),
   Controller = require("./controller"),
   Timeline = require("./timeline"),
   PopupMaker = require("./popup-maker"),
-  TechnicalInfo = require("./technical-info")
+  TechnicalInfo = require("./technical-info"),
+  Youtube = require("./youtube")
 
-var audio
+var audio,
+  video
 
 var uri = new URI(document.location)
 var piece = new Piece({}, { filename: uri.segment(0) })
@@ -19,7 +21,11 @@ piece.fetch()
 piece.on("sync", function() {
   audio = $("<audio>").attr("src", "media/" + piece.get("media"))
     .appendTo($("body"))[0]
-  $(audio).on("loadedmetadata", function() {
+  video = new Youtube({
+    el: $("#video-player"),
+    videoId: piece.get("youtube-id")
+  })
+  video.once("player-ready", function() {
     main()
   })
 })
